@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    //设置是否显示标题栏
+    <style name="AppTheme" >
+        <!-- Customize your theme here. -->
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+<!--        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>-->
+<!--        <item na me="android:colorAccent">@color/colorAccent</item>-->
+    </style>
+</resources>

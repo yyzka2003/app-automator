@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="defence_mode_text">Defence \nMode</string>
+    <string name="app_name">BISP</string>
+    <string name="app_title">BISP - AI Guard Your UI</string>
+    <string name="alter_mode_text">Alter \nMode</string>
+    <string name="tv_progress_text">Interval between change and labeling: 700ms</string>
+    <string name="privacy_policy_text">Privacy Policy</string>
+</resources>

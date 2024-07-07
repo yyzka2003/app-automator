@@ -1,0 +1,5 @@
+app/.cxx/
+app/build/
+app/src/main/assets/*
+.gradle/
+.idea/

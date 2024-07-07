@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+<!--        <TextView-->
+<!--            android:id="@+id/title_textview"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="隐私政策"-->
+<!--            android:textSize="24sp"-->
+<!--            android:textStyle="bold" />-->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="  欢迎使用我们的应用！我们十分注重您的隐私保护。本隐私政策将向您介绍我们在收集、使用和保护您的个人信息方面的做法。请在使用我们的应用之前，仔细阅读本隐私政策。如果您不同意本隐私政策中的任何条款，您可以选择停止使用我们的应用。"
+            android:textSize="16sp" />
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="\n1. 使用权限"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="  我们的应用程序需要某些权限以使其正常工作，这些权限包括："
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="· 读写存储空间权限：用于读取和保存您的应用设置和数据。"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="· 显示悬浮窗权限：用于在屏幕上显示应用程序的悬浮窗，以便您更方便地使用应用程序。"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="· 无障碍服务权限：用于读取您的应用程序状态并修改屏幕内容，以使应用程序正常工作。"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="\n2. 使用信息"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="  我们的应用程序不会使用您的个人身份信息或其他敏感信息。我们只会使用收集到的信息来提供和改进我们的服务。我们可能会使用收集到的信息来："
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="16dp">
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="· 改进我们的应用程序；"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="· 发现和解决技术问题；"-->
+<!--                android:textSize="16sp" />-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="· 无障碍服务权限：用于读取您的应用程序状态并修改屏幕内容，以使应用程序正常工作。"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="\n3. 信息共享"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="  我们的应用程序不会与任何第三方共享您的个人身份信息或其他敏感信息。所有的数据都仅存储于您手机本地，不会上传 "
+            android:textSize="16sp" />
+
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="\n4. 联系我们"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="  如果您对本隐私政策有任何疑问或意见，或者您希望访问、修改或删除您的个人信息，请通过我们的应用程序内的联系方式与我们。"
+            android:textSize="16sp" />
+
+    <!--英文版-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="\n\nWelcome to our app! We take your privacy seriously. This privacy policy outlines our practices for collecting, using, and protecting your personal information. Please read this privacy policy carefully before using our app. If you do not agree with any of the terms in this privacy policy, you may choose to stop using our app."
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="\n1. Permissions"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Our app requires certain permissions to function properly, including:"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="· Read and write storage permission: Used to read and save your app settings and data."
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="· Display over other apps permission: Used to display the app's floating window on the screen for your convenience."
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="· Accessibility service permission: Used to read your app's status and modify screen content to ensure proper app functionality."
+            android:textSize="16sp" />
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="\n2. Use of Information"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Our app does not use your personal identity information or other sensitive information. We only use the information collected to provide and improve our services. We may use the collected information to:"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp">
+
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="· Improve our app;"-->
+<!--            android:textSize="16sp" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="· Identify and troubleshoot technical issues;"-->
+<!--            android:textSize="16sp" />-->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="· Read application states and decorate user interface."
+            android:textSize="16sp" />
+
+    </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="\n3. Information Sharing"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Our app does not share your personal identity information or other sensitive information with any third parties. All data is stored locally on your phone"
+            android:textSize="16sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="\n4. Contact Us"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="  If you have any questions or comments about this privacy policy, or if you wish to access, modify, or delete your personal information, please contact us through the contact information within our application."
+            android:textSize="16sp" />
+    </LinearLayout>
+</ScrollView>
+

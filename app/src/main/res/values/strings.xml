@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">慧界</string>
+    <string name="app_title">慧界 - 智慧守护您的界面</string>
+    <string name="defence_mode_text">防御\n模式</string>
+    <string name="alter_mode_text">警示\n模式</string>
+    <string name="tv_progress_text">界面停止变化多久后开始标注：700ms</string>
+    <string name="privacy_policy_text">隐私政策</string>
+    <!--    as-->
+</resources>

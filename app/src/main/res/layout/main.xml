@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center|center_horizontal|center_vertical"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="70dp"
+            android:gravity="center"
+            android:text="@string/app_title"
+            android:textColor="@color/colorPrimary"
+            android:textSize="28sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Switch
+            android:id="@+id/alertMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="70dp"
+            android:layout_marginBottom="20dp"
+            android:switchMinWidth="20dp"
+            android:text="@string/alter_mode_text"
+            android:textColor="@color/colorPrimary"
+            android:textOff=""
+            android:textOn=""
+            android:textSize="18dp"
+            android:thumb="@drawable/thumb"
+            android:track="@drawable/track" />
+
+        <Switch
+            android:id="@+id/defendMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:switchMinWidth="20dp"
+            android:text="@string/defence_mode_text"
+            android:textColor="@color/colorPrimary"
+            android:textOff=""
+            android:textOn=""
+            android:textSize="18dp"
+            android:thumb="@drawable/thumb"
+            android:track="@drawable/track" />
+    </LinearLayout>
+
+
+    <SeekBar
+        android:id="@+id/sb_normal"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:max="1000"
+        android:maxHeight="5.0dp"
+        android:min="50"
+        android:minHeight="5.0dp"
+        android:progress="700"
+        android:progressDrawable="@drawable/sb_bar"
+        android:thumb="@drawable/sb_thumb"
+        android:outlineAmbientShadowColor="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/tv_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/tv_progress_text"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15dp" />
+
+</LinearLayout>
