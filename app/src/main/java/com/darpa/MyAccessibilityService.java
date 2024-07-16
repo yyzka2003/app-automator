@@ -2,13 +2,9 @@ package com.darpa;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
-import android.accessibilityservice.GestureDescription;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.app.usage.UsageStats;
-import android.app.usage.UsageStatsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,59 +12,43 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.os.RemoteException;
-import android.os.SystemClock;
-import android.os.UserHandle;
 import android.provider.Settings;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URISyntaxException;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import okhttp3.Call;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+//yzt
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import com.darpa.NetworkUtils;
+import java.nio.charset.StandardCharsets;
+import java.net.URLDecoder;
 
 public class MyAccessibilityService extends AccessibilityService {
 
@@ -97,6 +77,8 @@ public class MyAccessibilityService extends AccessibilityService {
     private static String  lastPackageClass = "";
     private boolean jumpFlag = true;
     private static ArrayList<String> systemApks = new ArrayList<>();
+    //yzt 设置存储指纹的map
+    Map<String, int[]> fpMap = new HashMap<>();
 
 
     @Override
@@ -104,7 +86,7 @@ public class MyAccessibilityService extends AccessibilityService {
         super.takeScreenshot(displayId, executor, callback);
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.P)
+    //    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public void onServiceConnected() {
         Log.e(TAG,"intoConnect");
@@ -123,6 +105,9 @@ public class MyAccessibilityService extends AccessibilityService {
         Log.e("MyAccessibilityService test", "onServiceConnected");
         worker = new Worker();
         worker.start();
+        // yzt fpMap初始化
+        fpMap.put("抢 & 812 293& 812 431& 812 569", new int[]{951,1150,1007,1197});
+        fpMap.put("& 0 108& 792 108& 936 108& 48 379& 900 717& 0 2253& 360 2253& 720 2253",new int[]{951,1150,1007,1197});
     }
 
     @Override
@@ -146,10 +131,10 @@ public class MyAccessibilityService extends AccessibilityService {
 
     //画框，加蒙层
     private void handleSingleBoxes(WindowManager wm, ObjGod[] boxesArr, int heightOffset) {
-        int topLeftX = 200;
-        int topLeftY = 200;
-        int bottomRightX = 500;
-        int bottomRightY = 500;
+        int topLeftX = (int) boxesArr[boxesArr.length-1].x;
+        int topLeftY = (int) boxesArr[boxesArr.length-1].y;
+        int bottomRightX = topLeftX+(int) boxesArr[boxesArr.length-1].w;
+        int bottomRightY = topLeftY+(int) boxesArr[boxesArr.length-1].h;
         View view = drawRectangle(wm, topLeftX, topLeftY, bottomRightX, bottomRightY, heightOffset);
         viewList.add(view);
         falsePositive = false;
@@ -219,7 +204,66 @@ public class MyAccessibilityService extends AccessibilityService {
     private volatile List<View> viewList = new ArrayList<>();
 
     public static final Object workerLockObj = new Object();
+    //yzt 指纹生成
+    public String generateFingerprint() {
+        StringBuilder fingerprint = new StringBuilder();
 
+        AccessibilityNodeInfo rootNode = getRootInActiveWindow();
+        if (rootNode != null) {
+            traverseViewsForFingerprint(rootNode, fingerprint);
+        }
+
+        return fingerprint.toString();
+    }
+    //yzt 指纹生成
+    public void traverseViewsForFingerprint(AccessibilityNodeInfo node, StringBuilder fingerprint) {
+        if (node == null) {
+            return;
+        }
+
+        if (node.isClickable()) {
+            // 获取文本信息
+            CharSequence text = node.getText();
+            String elementInfo = text != null ? (text.length() > 10 ? text.subSequence(0, 10).toString() : text.toString()) : "";
+
+            // 获取布局信息
+            Rect bounds = new Rect();
+            node.getBoundsInScreen(bounds);
+            int locX = bounds.left;
+            int locY = bounds.top;
+
+            // 生成界面指纹
+            fingerprint.append("&").append(elementInfo).append(" ").append(locX).append(" ").append(locY);
+        }
+
+        for (int i = 0; i < node.getChildCount(); i++) {
+            traverseViewsForFingerprint(node.getChild(i), fingerprint);
+        }
+    }
+    //yzt 获得公共子序列
+    public int getLCS(String s, String t) {
+        int[] f = new int[t.length() + 1];
+        for (char x : s.toCharArray()) {
+            int pre = 0;
+            for (int j = 0; j < t.length(); j++) {
+                int tmp = f[j + 1];
+                f[j + 1] = (x == t.charAt(j)) ? (pre + 1) : Math.max(f[j], f[j + 1]);
+                pre = tmp;
+            }
+        }
+        return f[t.length()];
+    }
+    // yzt 获得相似度
+    public double compareText(String text1, String text2) {
+        int lcs = getLCS(text1, text2);
+        double similarity;
+        if (text1.length() < text2.length()) {
+            similarity = (double) lcs / text2.length();
+        } else {
+            similarity = (double) lcs / text1.length();
+        }
+        return similarity;
+    }
 
     public class Worker extends Thread {
         public volatile long eventTimestamp = 0;
@@ -244,10 +288,35 @@ public class MyAccessibilityService extends AccessibilityService {
                                 if (curTimestamp - eventTimestamp >= detectTiming && !done) {
                                     Log.i("Working", "running detect");
                                     done = true;
-//                                    ObjGod[] objects=null;
+                                    //ObjGod[] objects=null;
                                     //TODO objects赋值 指纹
+                                    String fp = generateFingerprint();
+                                    Log.i(TAG, "Fingerprint：" + fp);
+                                    // yzt 默认应该设置成为空
+                                    int left_x=-1,left_y=-1,right_x=-1,right_y=-1;
+                                    for (Map.Entry<String, int[]> entry : fpMap.entrySet()) {
+                                        String key = entry.getKey();
+                                        double similarity = compareText(fp, key);
+                                        Log.i(TAG, "Similarity：" + similarity);
+//                                        相似度大于0.9就算是相同界面
+                                        if (similarity > 0.9) {
+                                            // 获取匹配项对应的四元组值
+                                            int[] tuple = entry.getValue();
+                                            left_x = tuple[0];
+                                            left_y = tuple[1];
+                                            right_x = tuple[2];
+                                            right_y = tuple[3];
+                                            break; // 找到一个匹配项就终止循环
+                                        }
+                                    }
+                                    //初始化框框为null，只有有值的时候才是
+                                    ObjGod[] objects=null;
                                     //设置框的xywh！！！
-                                    ObjGod[] objects = {new ObjGod(100.0f, 150.0f, 50.0f, 50.0f)};
+                                    if(left_x>0&&left_y>0&&right_x>0&&right_y>0){
+                                        Log.i(TAG, "left_x：" + left_x);
+                                        objects = new ObjGod[]{new ObjGod(left_x, left_y, right_x-left_x, right_y-left_y)};
+                                    }
+
                                     if (objects != null) {
                                         Message mes = new Message();
                                         mes.what = 1;
@@ -288,7 +357,7 @@ public class MyAccessibilityService extends AccessibilityService {
         for (PackageInfo packageInfo : packageList) {
             // 判断是否为系统应用
             if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0)
-                    systemApks.add(packageInfo.packageName);
+                systemApks.add(packageInfo.packageName);
         }
         String defaultInputMethod = Settings.Secure.getString(getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
         if(defaultInputMethod!=null) systemApks.add(defaultInputMethod);
@@ -301,8 +370,38 @@ public class MyAccessibilityService extends AccessibilityService {
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             Log.i("EVENT", String.valueOf(jumpFlag));
             if (event.getPackageName() != null ) {
-                //TODO 新的app打开
+                //TODO 新的app打开 访问接口 更新fpMap 先fpMap.clear()
                 String packageName = event.getPackageName().toString();
+                //fpMap.clear();
+                new Thread() {//网络请求需要在子线程中完成
+                    @Override
+                    public void run() {
+                        NetworkUtils request = new NetworkUtils();
+                        String res = null;
+                        try {
+                            res = request.get(packageName);
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (res != null && !res.isEmpty()) {
+                            try {
+                                Log.i(TAG, "json解析");
+                                JSONObject jsonObject = new JSONObject(res);
+                                String fp=jsonObject.getString("fp");;
+                                int upleftx = jsonObject.getInt("upleftx");
+                                int uplefty = jsonObject.getInt("uplefty");
+                                int lowrightx = jsonObject.getInt("lowrightx");
+                                int lowrighty = jsonObject.getInt("lowrighty");
+
+                                fpMap.put(fp, new int[]{upleftx, uplefty, lowrightx, lowrighty});
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }.start();
+
                 Log.i("TAG", "lastPackageName:" + lastPackageName + "   package:" + packageName); //apk包名 packageName
                 //正常通过桌面或系统应用发生跳转
                 if (lastPackageName.equals(packageName) || systemApks.contains(packageName) || systemApks.contains(lastPackageName)) {

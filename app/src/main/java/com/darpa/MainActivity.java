@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         Log.i("JUMPSERVICE","TEST");
         super.onCreate(savedInstanceState);
-
+        //在activity中启动AS服务
         Intent intent = new Intent(this, MyAccessibilityService.class);
         startService(intent);
 
